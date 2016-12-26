@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef pair<long long int ,int > ppp;
+int main()
+{
+    long long int t,tt,minco,pp,n,m,mm,c;
+    int x,xx,y,i,yy;
+    scanf("%lld",&tt);
+    for(t=0;t<tt;t++)
+    {
+        scanf("%lld",&pp);
+        scanf("%lld",&n);
+        scanf("%lld",&m);
+        vector < ppp > v[n+1];
+        minco=0;
+        for(mm=0;mm<m;mm++)
+        {
+
+        scanf("%d",&x);
+        scanf("%d",&y);
+        scanf("%lld",&c);
+        v[x].push_back({c,y});
+        v[y].push_back({c,x});
+        }
+        vector < int > visited(n+1,0);
+    priority_queue<ppp, vector<ppp>, greater<ppp> > Q;
+    ppp l;
+    Q.push({0,1});
+    while(!Q.empty())
+    {
+        l=Q.top();
+        Q.pop();
+        xx=l.second;
+        if(visited[xx]==1)
+            continue;
+        minco=minco+l.first;
+        visited[xx]=1;
+        for(i=0;i<v[xx].size();i++)
+        {
+            yy=v[xx][i].second;
+            if(visited[yy]==0)
+                Q.push(v[xx][i]);
+        }
+    }
+    printf("%lld\n",minco*pp);
+    for(mm=0;mm<n;mm++)
+        v[mm].clear();
+    visited.clear();
+    while(!Q.empty())
+        Q.pop();
+    }
+    return 0;
+}
