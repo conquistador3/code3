@@ -1,0 +1,46 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+long long int t,x,i,j,l,h,m,s=0,p,q,qq;
+scanf("%lld",&qq);
+vector <long long int> v;
+for(q=0;q<qq;q++)
+{
+
+
+scanf("%lld%lld",&t,&j);
+for(i=0;i<t;i++)
+{
+  scanf("%lld",&x);
+    v.push_back(x);
+}
+s=0;
+sort(v.begin(),v.end());
+for(i=0;i<t;i++)
+{
+    p=j-v[i];
+    l=i;
+    h=t-1;
+    while(h>=l)
+    {
+        m=l+(h-l)/2;
+        if(v[m]==p)
+        {
+            s=s+count(v.begin(),v.end(),p);
+            l=h+1;
+        }
+        else if(v[m]>p)
+            h=m-1;
+        else
+            l=m+1;
+    }
+
+}
+printf("%lld\n",s);
+v.clear();
+}
+    return 0;
+}
