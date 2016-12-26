@@ -1,0 +1,110 @@
+#include<bits/stdc++.h>
+const int N = 200050;
+using namespace std;
+int n, m;
+vector<int> g[N], gr[N];
+int used[N];
+vector<int> order;
+vector<int> comp;
+int ans[N];
+void dfs(int v)
+{
+	used[v] = 1;
+	for (int i = 0; i < g[v].size(); i++)
+	{
+		int to = g[v][i];
+		if (used[to])
+			continue;
+		dfs(to);
+	}
+	order.push_back(v);
+}
+void dfs2(int v)
+{
+	comp.push_back(v);
+	used[v] = 1;
+	for (int i = 0; i < gr[v].size(); i++)
+	{
+		int to = gr[v][i];
+		if (used[to])
+			continue;
+		dfs2(to);
+	}
+}
+int main(){
+	ios_base::sync_with_stdio(0);
+	//cin.tie(0);
+	int ii,i;
+	cin >> n;
+	while(n!=0)
+    {
+for(i=1;i<=n;i++)
+{
+    g[i].clear();
+    gr[i].clear();
+}
+	cin>>m;
+	fill(used,used+n+1,0);
+	for (int i = 1; i <= m; i++)
+	{
+		int a, b;
+		cin >> a >> b;
+		g[a].push_back(b);
+		gr[b].push_back(a);
+	}
+	for (int i = 1; i <= n; i++)
+	{
+		if (used[i])
+			continue;
+		dfs(i);
+	}
+	reverse(order.begin(), order.end());
+	vector <int > pp;
+	/*for (int i = 1; i <= n; i++)
+	{
+		used[i] = 0;
+	}*/
+	fill(used,used+n+1,0);
+	for (int i = 0; i < order.size(); i++)
+	{
+		int id = order[i];
+		if (used[id])
+			continue;
+		comp.clear();
+		dfs2(id);
+		int	flag=1;
+		for(ii=0;ii<comp.size();ii++)
+    {
+    int v=comp[ii];
+    for(int y=0;y<g[v].size();y++)
+    {
+        std::vector<int>::iterator it=find(comp.begin(),comp.end(),g[v][y]);
+        if(it!=comp.end())
+        {
+        }
+        else{
+            flag=0;
+            ii=comp.size();
+        }
+    }
+    }
+	if(flag)
+    {
+        for(int y=0;y<comp.size();y++)
+        {
+            pp.push_back(comp[y]);
+        }
+    }
+	}
+	comp.clear();
+	sort(pp.begin(),pp.end());
+	for(int y=0;y<pp.size();y++)
+    {
+        cout<<pp[y]<<" ";
+    }
+    cout<<"\n";
+    pp.clear();
+    cin>>n;
+    }
+	return 0;
+}
