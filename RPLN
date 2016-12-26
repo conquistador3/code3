@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+const int n=100005;
+int st[4*n],arr[n];
+int constructSTUtil(int ss, int se, int si)
+{
+    if (ss == se)
+    {
+        st[si] = arr[ss];
+        return arr[ss];
+    }
+    int mid =ss+(se-ss)/2;
+    st[si] =  min(constructSTUtil( ss, mid, si*2+1),
+                     constructSTUtil( mid+1, se, si*2+2));
+    return st[si];
+}
+int RMQUtil( int ss, int se, int qs, int qe, int index)
+{
+    if (qs <= ss && qe >= se)
+        return st[index];
+
+    if (se < qs || ss > qe)
+        return INT_MAX;
+    int mid = ss+(se-ss)/2;
+    return min(RMQUtil( ss, mid, qs, qe, 2*index+1),
+                  RMQUtil( mid+1, se, qs, qe, 2*index+2));
+}
+int main()
+{
+    int j,t,n,m,i,k,a,b;
+    scanf("%d",&t);
+    for(i=1;i<=t;i++)
+    {
+        scanf("%d%d",&n,&m);
+        for(j=0;j<n;j++)
+            scanf("%d",&arr[j]);
+        int p=constructSTUtil(0,n-1,0);
+        printf("Scenario #%d:\n",i);
+        for(k=0;k<m;k++)
+        {
+            scanf("%d%d",&a,&b);
+            printf("%d\n",RMQUtil(0,n-1,a-1,b-1,0));
+        }
+    }
+    return 0;
+}
