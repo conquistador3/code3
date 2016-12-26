@@ -1,0 +1,130 @@
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int t,tt,x,y,xx,yy,p,pp,flag=0,X;
+    scanf("%d",&t);
+    string s,d;
+    queue <int> q,qq;
+
+    for(tt=0;tt<t;tt++)
+{
+        cin>>s>>d;
+        vector < vector  <int > > distance( 8, vector <int > (8, 0));
+     vector < vector  <int > > visited( 8, vector <int > (8, 0));
+        x=(int)(s[0]-'a');
+        y=(int)('8'-s[1]);
+        xx=(int)(d[0]-'a');
+        yy=(int)('8'-d[1]);
+
+        visited[x][y]=1;
+        distance[x][y]=0;
+      q.push(x);
+      qq.push(y);
+      flag=0;
+      X=0;
+        while(!q.empty()&&flag==0)
+        {
+          p=q.front();
+          pp=qq.front();
+            q.pop();
+            qq.pop();
+            if(p==xx&&pp==yy)
+            {
+                flag=1;
+                X=distance[p][pp];
+            }
+            if(((p-1)>=0&&(pp-2)>=0)&&((p-1)<8&&(pp-2)<8))
+            {
+                if(visited[p-1][pp-2]==0)
+               {
+                   q.push(p-1);
+                   qq.push(pp-2);
+                   visited[p-1][pp-2]=1;
+                   distance[p-1][pp-2]=distance[p][pp]+1;
+               }
+            }
+            if(((p-2)>=0&&(pp-1)>=0)&&((p-2)<8&&(pp-1)<8))
+            {
+                if(visited[p-2][pp-1]==0)
+               {
+                   q.push(p-2);
+                   qq.push(pp-1);
+                   visited[p-2][pp-1]=1;
+                   distance[p-2][pp-1]=distance[p][pp]+1;
+               }
+            }
+             if(((p-2)>=0&&(pp+1)>=0)&&((p-2)<8&&(pp+1)<8))
+            {
+                if(visited[p-2][pp+1]==0)
+               {
+                   q.push(p-2);
+                   qq.push(pp+1);
+                   visited[p-2][pp+1]=1;
+                   distance[p-2][pp+1]=distance[p][pp]+1;
+               }
+            }
+          if(((p-1)>=0&&(pp+2)>=0)&&((p-1)<8&&(pp+2)<8))
+            {
+                if(visited[p-1][pp+2]==0)
+               {
+                   q.push(p-1);
+                   qq.push(pp+2);
+                   visited[p-1][pp+2]=1;
+                   distance[p-1][pp+2]=distance[p][pp]+1;
+               }
+            }
+                      if(((p+1)>=0&&(pp+2)>=0)&&((p+1)<8&&(pp+2)<8))
+            {
+                if(visited[p+1][pp+2]==0)
+               {
+                   q.push(p+1);
+                   qq.push(pp+2);
+                   visited[p+1][pp+2]=1;
+                   distance[p+1][pp+2]=distance[p][pp]+1;
+               }
+            }
+             if(((p+2)>=0&&(pp+1)>=0)&&((p+2)<8&&(pp+1)<8))
+            {
+                if(visited[p+2][pp+1]==0)
+               {
+                   q.push(p+2);
+                   qq.push(pp+1);
+                   visited[p+2][pp+1]=1;
+                   distance[p+2][pp+1]=distance[p][pp]+1;
+               }
+            }
+             if(((p+2)>=0&&(pp-1)>=0)&&((p+2)<8&&(pp-1)<8))
+            {
+                if(visited[p+2][pp-1]==0)
+               {
+                   q.push(p+2);
+                   qq.push(pp-1);
+                   visited[p+2][pp-1]=1;
+                   distance[p+2][pp-1]=distance[p][pp]+1;
+               }
+            }
+            if(((p+1)>=0&&(pp-2)>=0)&&((p+1)<8&&(pp-2)<8))
+            {
+                if(visited[p+1][pp-2]==0)
+               {
+                   q.push(p+1);
+                   qq.push(pp-2);
+                   visited[p+1][pp-2]=1;
+                   distance[p+1][pp-2]=distance[p][pp]+1;
+               }
+            }
+
+        }
+      while(!q.empty())
+      {
+          q.pop();
+          if(!qq.empty())
+            qq.pop();
+      }
+      printf("%d\n",X);
+}
+
+    return 0;
+
+}
