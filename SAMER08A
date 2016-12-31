@@ -1,0 +1,99 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+#define pi pair<int ,int >
+
+int main()
+{
+    int n,m,i,a,b,so,des,uu,vv,vi,w;
+    scanf("%d%d",&n,&m);
+    while(n!=0||m!=0)
+    {
+        vector < pi> g[505];
+int d[505],v[505],u[505];
+vector  < int > gg[505];
+    scanf("%d%d",&so,&des);
+    priority_queue < pi ,vector <pi> ,greater < pi> > pq;
+    for(i=0;i<m;i++)
+    {
+      scanf("%d%d%d",&a,&b,&w);
+        g[a].push_back(pi(w,b));
+    }
+    fill(d,d+n,999999);
+    fill(v,v+n,0);
+    fill(u,u+n,0);
+    d[so]=0;
+    pq.push(pi(0,so));
+    while(!pq.empty())
+    {
+        uu=pq.top().first;
+        vv=pq.top().second;
+        pq.pop();
+        if(v[vv])
+            continue;
+            for(int y=0;y<g[vv].size();y++)
+            {
+              vi = g[vv][y].second;
+					w = g[vv][y].first;
+
+            if(v[vi]==0&&w+d[vv]<d[vi])
+            {
+                gg[vi].clear();
+                gg[vi].push_back(vv);
+                d[vi]=w+d[vv];
+                pq.push(pi(d[vi],vi));
+            }
+            if(v[vi]==0&&w+d[vv]==d[vi])
+            {
+                gg[vi].push_back(vv);
+            }
+            }
+            v[vv]=1;
+    }
+    vv=des;
+    queue < int > Q;
+    int h[n][n];
+    memset(h,0,sizeof(h));
+    Q.push(des);
+    while(!Q.empty())
+    {
+        vv=Q.front();
+        Q.pop();
+        if(u[vv])
+            continue;
+        for(i=0;i<gg[vv].size();i++)
+        {
+            Q.push(gg[vv][i]);
+            h[gg[vv][i]][vv]=1;
+        }
+    }
+ fill(d,d+n,999999);
+    fill(v,v+n,0);
+d[so]=0;
+    pq.push(pi(0,so));
+    while(!pq.empty())
+    {
+        vv=pq.top().second;
+        pq.pop();
+        if(v[vv])
+            continue;
+            for(int y=0;y<g[vv].size();y++)
+            {
+              vi = g[vv][y].second;
+					w = g[vv][y].first;
+            if(v[vi]==0&&w+d[vv]<d[vi]&&h[vv][vi]==0)
+            {
+                d[vi]=w+d[vv];
+                pq.push(pi(d[vi],vi));
+            }
+            }
+            v[vv]=1;
+    }
+    if(d[des]<999999)
+    printf("%d\n",d[des]);
+    else
+        printf("%d\n",-1);
+    scanf("%d%d",&n,&m);
+    }
+    return 0;
+}
