@@ -1,0 +1,78 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+#define pi pair<int,int>
+const int INF = 0x3f3f3f3f;
+int d[10005],dd[10005],v[10005];
+int main()
+{
+    int n,t,i,j,w,vv,vi,ww,tt,ii,m,so,des,a,b;
+    scanf("%d",&t);
+    for(tt=0;tt<t;tt++)
+    {
+        scanf("%d%d%d%d%d",&n,&ii,&m,&so,&des);
+         vector < pi > g[n+1];
+vector  < pi > gg[n+1];
+fill(d,d+n+1,INF);
+fill(dd,dd+n+1,INF);
+fill(v,v+n+1,0);
+d[so]=0;dd[des]=0;
+for(i=0;i<ii;i++)
+{
+    scanf("%d%d%d",&a,&b,&w);
+    g[a].push_back(pi(w,b));gg[b].push_back(pi(w,a));
+}
+priority_queue < pi ,vector < pi >,greater < pi > > pq;
+pq.push(pi(0,so));
+    while(!pq.empty())
+    {
+        vv=pq.top().second;
+        pq.pop();
+        if(v[vv])
+            continue;
+            for(int y=0;y<g[vv].size();y++)
+            {
+              vi = g[vv][y].second;
+					w = g[vv][y].first;
+            if(v[vi]==0&&w+d[vv]<d[vi])
+            {
+                d[vi]=w+d[vv];
+                pq.push(pi(d[vi],vi));
+            }
+            }
+            v[vv]=1;
+    }
+    fill(v,v+n+1,0);
+    pq.push(pi(0,des));
+    while(!pq.empty())
+    {
+        vv=pq.top().second;
+        pq.pop();
+        if(v[vv])
+            continue;
+            for(int y=0;y<gg[vv].size();y++)
+            {
+              vi = gg[vv][y].second;
+					w = gg[vv][y].first;
+            if(v[vi]==0&&w+dd[vv]<dd[vi])
+            {
+                dd[vi]=w+dd[vv];
+                pq.push(pi(dd[vi],vi));}}
+            v[vv]=1;
+    }
+    int ans=d[des];
+for(i=0;i<m;i++)
+{
+    scanf("%d%d%d",&a,&b,&w);
+    if(d[a]!=INF&&dd[b]!=INF)
+       ans=min(ans,(d[a]+w+dd[b]));
+    if(d[b]!=INF&&dd[a]!=INF)
+         ans=min(ans  ,d[b]+w+dd[a]);
+}
+if(ans==INF)
+    printf("%d\n",-1);
+else
+printf("%d\n",ans);
+    }
+    return 0;
+}
