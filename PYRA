@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector < int > g[10007];
+int visited[10007];
+struct np { int area , vol;};
+np dfs( int v)
+{
+np k; k.area=0 ; k.vol=0;
+np ret;
+    visited[v]=1; int area=0, flag=1;
+    for(int i=0;i<g[v].size();i++)
+    {
+     if(visited[g[v][i]]==0)
+     {
+       ret=dfs(g[v][i]);
+       k.area=k.area+ ret.area; k.vol=k.vol+ret.vol;
+         flag=0;
+     }
+    }
+    if(flag)
+    {
+    np one; one.area=1 ; one.vol=1;
+        return one;
+    }
+    np vv;
+        if(v!=0)
+        {
+            vv.area=g[v].size()+k.area;
+            vv.vol=vv.area+k.vol;
+            return vv;
+        }
+        if(v==0)
+        {
+            vv.area=g[v].size()+k.area+1;
+            vv.vol=vv.area+k.vol;
+            return vv;
+        }
+}
+int main()
+{
+    int n,t,tt,p,a,b;
+    scanf("%d",&t);
+    for(tt=0;tt<t;tt++)
+    {
+    scanf("%d",&n);
+    fill( visited,visited+n+1,0);
+    for(p=0;p<=n;p++)
+        g[p].clear();
+    for(p=1;p<n;p++)
+    {
+      scanf("%d%d",&a,&b);
+      g[a].push_back(b);
+      g[b].push_back(a);
+    }
+    np y=dfs(0);
+    printf("%d\n",y.vol);
+    }
+    return 0;
+}
