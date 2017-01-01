@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+#define pi pair <int,int>
+
+int v[505][505];
+int main()
+{
+ int t,tt,i,j,n,m,x,y,xx,yy;
+ int xm[]={0,0,-1,1};
+ int ym[]={1,-1,0,0};
+ scanf("%d",&t);
+ for(tt=0;tt<t;tt++)
+ {
+     scanf("%d%d",&n,&m);
+     char ch[n][m],p[505][505];
+          memset(v,0,sizeof(v));
+     queue < pi > pq;
+     for(i=0;i<n;i++)
+     {
+         scanf("%s",ch[i]);
+         for(j=0;j<m;j++)
+         {
+           if(ch[i][j]>='a'&&ch[i][j]<='z')
+         {
+             p[i][j]=ch[i][j];
+             v[i][j]=1;
+             pq.push(pi(i,j));
+           //  cout<<i<<" "<<j<<" "<<ch[i][j]<<"\n";
+         }
+         }
+     }
+     while(!pq.empty())
+           {
+        xx=pq.front().first; yy=pq.front().second;
+      //  cout<<xx<<" "<<yy<<" "<<ch[xx][yy]<<"\n";
+        pq.pop();
+        if(ch[xx][yy]=='*')
+            continue;
+        for(int y=0;y<4;y++)
+        {
+            int tx=xx+xm[y];int ty=yy+ym[y];
+            if(tx>=0&&tx<n&&ty>=0&&ty<m)
+            {
+                if(v[tx][ty]==0&&ch[tx][ty]!='#'&&p[xx][yy]!='*')
+                {
+                    p[tx][ty]=p[xx][yy]; v[tx][ty]=v[xx][yy]+1; ch[tx][ty]=p[xx][yy];
+                    pq.push(pi(tx,ty));
+                }
+                else if(v[tx][ty]==v[xx][yy]+1&&ch[tx][ty]!='#'&&p[tx][ty]!=p[xx][yy])
+                {
+                    p[tx][ty]='*'; ch[tx][ty]='*';
+                }
+
+            }
+        }
+           }
+
+for(i=0;i<n;i++)
+     {for(j=0;j<m;j++)
+     {
+      printf("%c",ch[i][j]);
+     }
+     printf("\n");}
+printf("\n");
+ }
+    return 0;
+}
