@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+map < int ,int  > mp;
+const int N=100005;
+int vis[N],par[N],req[N];
+vector  < int  >  g[N];
+int main()
+{
+    int n, k , m,i ,j ,a,b,v,vv,u,uu;
+    ios_base::sync_with_stdio(0);
+    cin>>n>>k>>m;
+    while(n!=-1&&k!=-1&&m!=-1)
+    {
+        queue  < int > q;
+
+        fill(vis,vis+N,0); fill(par,par+N,0); fill(req, req+N,0); mp.clear();
+        for(i=0;i<k;i++)
+        {
+            cin>>a>>b;
+            mp[a]=b;
+            req[b]=a;
+        }
+        for(i=0;i<m;i++)
+        {
+            cin>>a>>b;
+            g[a].push_back(b);
+            g[b].push_back(a);
+        }
+        par[1]=1; vis[1]=1;
+        q.push(1);
+        while(!q.empty())
+        {
+            v=q.front(); q.pop();
+            if(mp[v]!=0)
+            {
+                req[mp[v]]=0;
+                if(par[mp[v]]==1)
+                {
+                    vis[mp[v]]=1;
+                    q.push(mp[v]);
+                }
+                    mp[v]=0;
+            }
+            for(i=0;i<g[v].size();i++)
+            { u=g[v][i]; par[u]=1;
+                if(vis[u]==0&&req[u]==0)
+                {
+                   vis[u]=1;
+                   q.push(u);
+                }
+            }
+        }
+        if(vis[n])
+            cout<<"Y\n";
+        else cout<<"N\n";
+        for(i=0;i<=n;i++)
+            g[i].clear();
+        cin>>n>>k>>m;
+    }
+    return 0;
+}
