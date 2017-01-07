@@ -1,0 +1,79 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+struct n
+{
+    int a,b,c,d;
+};
+char ch[51][51];
+int mp[51][51][51];
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    int np,x,y,z,i,j,flag;
+    cin>>np;
+    while(np!=0)
+    {
+        cin>>x>>y>>z;
+        memset(mp,0,sizeof(mp));
+        for(i=1;i<=np;i++)
+        {
+            for(j=1;j<=np;j++)
+                cin>>ch[i][j];
+        }
+        mp[x][y][z]=1;
+        queue < n > q;
+        n  nn;
+        char C;
+        nn.a=x; nn.b=y , nn.c=z; nn.d=0; flag=1;
+        q.push(nn);
+        while(!q.empty()&&flag==1)
+        {
+            n t=q.front(); q.pop();
+            if(t.a==t.b&&t.a==t.c)
+            {
+                cout<<t.d<<"\n";
+                flag=0;
+                break;
+            }
+            n P;
+            C=ch[t.b][t.c];
+            for(i=1;i<=np;i++)
+            {
+                if(ch[t.a][i]==C&&mp[i][t.b][t.c]==0)
+                {
+                    mp[i][t.b][t.c]=1;
+                    P.a=i; P.b=t.b ; P.c=t.c; P.d=t.d+1;
+                    q.push(P);
+                }
+            }
+            C=ch[t.a][t.c];
+            for(i=1;i<=np;i++)
+            {
+                if(ch[t.b][i]==C&&mp[t.a][i][t.c]==0)
+                {
+                    mp[t.a][i][t.c]=1;
+                    P.a=t.a; P.b=i ; P.c=t.c; P.d=t.d+1;
+                    q.push(P);
+                }
+            }
+             C=ch[t.a][t.b];
+            for(i=1;i<=np;i++)
+            {
+                if(ch[t.c][i]==C&&mp[t.a][t.b][i]==0)
+                {
+                    mp[t.a][t.b][i]=1;
+                    P.a=t.a; P.b=t.b ; P.c=i; P.d=t.d+1;
+                    q.push(P);
+                }
+            }
+
+        }
+        if (flag)
+            cout<<"impossible\n";
+        while(!q.empty())
+            q.pop();
+        cin>>np;
+    }
+        return 0;
+}
