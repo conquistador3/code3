@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+const int N=8005;
+struct node
+{
+    int d;
+    node* l;
+    node* r;
+};
+int pre[N],pos[N],in[N]; vector < int > v;
+int p=0;
+ node* build(int lt,int rt )
+{
+    if(lt>rt)
+        return NULL;
+     node* pa=(node*)malloc(sizeof(node));
+    pa->d=pre[p]; p++; int k=lt;
+    for(int i=lt;i<=rt;i++)
+    {
+        if(in[i]==pa->d)
+        {
+            k=i; break;
+        }
+    }
+    pa->l=build(lt,k-1);
+    pa->r=build(k+1,rt);
+    return pa;
+};
+void post( node* N)
+{
+    if(N==NULL)
+        return;
+    post(N->l);
+    post(N->r);
+    v.push_back(N->d);
+}
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    int n,i,j,flag=1;
+    cin>>n;
+    for(i=0;i<n;i++)
+        cin>>pre[i];
+    for(i=0;i<n;i++)
+        cin>>pos[i];
+        for(i=0;i<n;i++)
+        cin>>in[i];
+    node* head= build(0,n-1);
+       post(head);
+    for(i=0;i<n;i++)
+        {
+            if(v[i]!=pos[i])
+                flag=0;
+        }
+        if(flag)
+            cout<<"yes\n";
+        else cout<<"no\n";
+    return 0;
+}
