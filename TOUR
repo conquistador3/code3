@@ -1,0 +1,95 @@
+#include<bits/stdc++.h>
+const int N = 1005;
+using namespace std;
+int n, m;
+vector<int> g[N], gr[N];
+int used[N],use[N],comp[N],in[N];
+vector<int> order;
+void dfs(int v)
+{
+	used[v] = 1;
+	for (int i = 0; i < g[v].size(); i++)
+	{
+		int to = g[v][i];
+		if (used[to])
+			continue;
+		dfs(to);
+	}
+	order.push_back(v);
+}
+void dfs2(int v,int c)
+{
+	comp[v]=c;
+	used[v] = 1;
+	for (int i = 0; i < gr[v].size(); i++)
+	{
+		int to = gr[v][i];
+		if (used[to])
+			continue;
+		dfs2(to,c);
+	}
+}
+int main(){
+	ios_base::sync_with_stdio(0);
+	int ii,i,t,tt,j,a,cunt,b;
+	cin>>tt;
+	for(t=0;t<tt;t++)
+    {
+	cin >> n;
+	fill(used,used+n+1,0);
+	for(i=1;i<=n;i++)
+    {
+        g[i].clear(); gr[i].clear();
+    }
+	for (int i = 1; i <= n; i++)
+	{ cin>>a;
+		for(j=0;j<a;j++)
+        {
+            cin>>b;
+		g[b].push_back(i); gr[i].push_back(b);
+        }
+	}
+	for (int i = 1; i <= n; i++)
+	{
+		if (used[i])
+			continue;
+		dfs(i);
+	}
+	fill(used,used+n+1,0); fill(comp,comp+n+1,0);
+cunt=0;
+	for (int i = order.size()-1; i>=0; i--)
+	{
+		int id = order[i];
+		if (used[id])
+			continue;
+		dfs2(id,cunt++);
+	}
+	fill(in,in+n+1,0);
+	for(i=1;i<=n;i++)
+    {
+        for(j=0;j<g[i].size();j++)
+        {
+            if(comp[i]!=comp[g[i][j]])
+                in[comp[g[i][j]]]++;}
+    }
+    int cnt=0;
+for(i=0;i<cunt;i++)
+{if(in[i]==0)
+    cnt++;}
+   // cout<<cnt;
+    if ( cnt > 1 ) {
+            cout<<"0\n";
+        }
+        else {
+            cnt = 0;
+            for ( i = 1; i <= n; ++i ) {
+                if ( in[ comp[ i ] ] == 0 ) {
+                    ++cnt;
+                }
+            }
+        cout<<cnt<<"\n";
+        }
+    }
+
+	return 0;
+}
